@@ -20,7 +20,27 @@ struct GameOfLifeTest : t::Test {
 };
 
 TEST_F(GameOfLifeTest, canCreateGameWithSize) {
-	w::GameOfLife const game{ 23, 42 };
-	EXPECT_EQ(23, game.width());
-	EXPECT_EQ(42, game.height());
+	w::GameOfLife game{ 5, 5 };
+	EXPECT_EQ(5, game.width());
+	EXPECT_EQ(5, game.height());
+	auto const actual = stringify(game);
+	EXPECT_EQ(
+		"     \n"
+		"     \n"
+		"     \n"
+		"     \n"
+		"     \n",
+		actual
+	);
+
+	game(2, 2) = w::CellState::Alive;
+
+	EXPECT_EQ(
+		"     \n"
+		"     \n"
+		"  X  \n"
+		"     \n"
+		"     \n",
+		stringify(game)
+	);
 }
