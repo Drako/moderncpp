@@ -6,7 +6,7 @@ add_executable(roman_numeral_converter_tests
 	roman_numeral_converter_test.cxx
 )
 target_link_libraries(roman_numeral_converter_tests PRIVATE
-	gtest gtest_main
+	CONAN_PKG::gtest
 	roman_numeral_converter_impl
 )
 

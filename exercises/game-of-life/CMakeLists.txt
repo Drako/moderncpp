@@ -6,7 +6,7 @@ add_executable(game_of_life_tests
 	game_of_life_test.cxx
 )
 target_link_libraries(game_of_life_tests PRIVATE
-	gtest gmock gmock_main
+	CONAN_PKG::gtest
 	game_of_life_impl
 )
 

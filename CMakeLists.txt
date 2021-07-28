@@ -8,31 +8,8 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 enable_testing()
 
-include(FetchContent)
-
-FetchContent_Declare(
-    googletest
-    GIT_REPOSITORY https://github.com/google/googletest
-    GIT_TAG release-1.11.0
-)
-FetchContent_Declare(
-    spdlog
-    GIT_REPOSITORY https://github.com/gabime/spdlog
-    GIT_TAG v1.9.1
-)
-
-FetchContent_GetProperties(googletest)
-if (NOT googletest_POPULATED)
-    FetchContent_Populate(googletest)
-	set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
-    add_subdirectory("${googletest_SOURCE_DIR}" "${googletest_BINARY_DIR}")
-endif()
-
-FetchContent_GetProperties(spdlog)
-if (NOT spdlog_POPULATED)
-    FetchContent_Populate(spdlog)
-    add_subdirectory("${spdlog_SOURCE_DIR}" "${spdlog_BINARY_DIR}")
-endif()
+include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+conan_basic_setup(TARGETS)
 
 add_subdirectory(contrib)
 add_subdirectory(examples)

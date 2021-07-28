@@ -4,8 +4,7 @@ add_executable(example_tests
 	string_test.cxx
 )
 target_link_libraries(example_tests PRIVATE
-	gtest gmock gmock_main
-	spdlog
+	CONAN_PKG::gtest
 )
 
 add_test(NAME example_tests COMMAND example_tests)
