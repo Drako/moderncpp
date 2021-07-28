@@ -1,0 +1,17 @@
+# cmake
+build/
+cmake-build-*/
+
+# intellij
+*.iml
+.idea/*
+!.idea/codeStyles/
+
+# QtCreator
+CMakeLists.txt.user
+
+# MacOS
+.DS_Store
+
+# Visual Studio
+.vs/

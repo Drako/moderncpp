@@ -1,0 +1,13 @@
+add_library(roman_numeral_converter_impl STATIC
+	roman_numeral_converter.cxx roman_numeral_converter.hxx
+)
+
+add_executable(roman_numeral_converter_tests
+	roman_numeral_converter_test.cxx
+)
+target_link_libraries(roman_numeral_converter_tests PRIVATE
+	gtest gtest_main
+	roman_numeral_converter_impl
+)
+
+add_test(NAME roman_numeral_converter_tests COMMAND roman_numeral_converter_tests)
