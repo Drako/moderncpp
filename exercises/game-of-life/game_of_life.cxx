@@ -32,7 +32,7 @@ namespace workshop {
 	GameOfLife::GameOfLife(int const width, int const height)
 		: m_width{width}
 		, m_height{height}
-		, m_cells{width * height}
+		, m_cells{width * height, CellState::Dead}
 	{}
 
 	CellState GameOfLife::operator() (int const x, int const y) const {
@@ -57,6 +57,19 @@ namespace workshop {
 
 	int GameOfLife::height() const {
 		return m_height;
+	}
+
+	void GameOfLife::step() {
+		GameOfLife old{ *this };
+		for (int y = 0; y < m_height; ++y) {
+			for (int x = 0; x < m_width; ++x) {
+				int const neighbors = old.livingNeighborsOf(x, y);
+				if (neighbors == 3)
+					operator()(x, y) = CellState::Alive;
+				else if (neighbors < 2 || neighbors > 3)
+					operator()(x, y) = CellState::Dead;
+			}
+		}
 	}
 
 	int GameOfLife::livingNeighborsOf(int const x, int const y) const {

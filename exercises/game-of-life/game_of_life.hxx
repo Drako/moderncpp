@@ -17,8 +17,8 @@ enum Coordinate {
 
 namespace workshop {
 	enum class CellState : std::uint8_t {
-		Dead = 1,
-		Alive = 2,
+		Dead = 0,
+		Alive = 1,
 		// Schrodinger = 3,
 	};
 
@@ -68,6 +68,8 @@ namespace workshop {
 
 		int width() const;
 		int height() const;
+
+		void step();
 
 	private:
 		int m_width;
