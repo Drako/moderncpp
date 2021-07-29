@@ -39,7 +39,7 @@ TEST_P(RomanNumeralConversionFixture, converts_from_roman)
 INSTANTIATE_TEST_SUITE_P(
 	RomanNumeralConverterTest,
 	InvalidRomanNumeralFixture,
-	t::Values("", "A", "ABC", "alpha", "mx", "23", "M!", "", "XF", "MMS"));
+	t::Values("", "A", "ABC", "alpha", "mx", "23", "M!", "XF", "MMS", "IIX", "IXI", "IM", "IIM", "IIIM", "IIII", "IIIII", "IIIIIIII", "LC", "LL", "CCCC", "MMMM", "MIM", "XM", "MXM", "XXC", "CXLICMIM", "XCX", "MXCX", "XCXCXC", "MIMIMI", "XCXL"));
 
 INSTANTIATE_TEST_SUITE_P(
 	RomanNumeralConverterTest,
