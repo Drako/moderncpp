@@ -57,6 +57,9 @@ struct rectangle {
 	double width, height;
 };
 
+// normally never put stuff into the std namespace
+// extending std::hash is one of the rare cases,
+// where it is officially allowed
 namespace std {
 	template <>
 	struct hash<rectangle> {
@@ -122,7 +125,10 @@ TEST(ContainerTest, testList) {
 	int illuminati = std::any_cast<int>(numbers.front());
 }
 
-
+// std::unordered_map is not actually unordered
+// it is a hash map, so the hashes of the keys are used for ordering
+// which makes the actual order non-obvious
+// same for std::unordered_set
 TEST(ContainerTest, testMap) {
 	std::map<char const*, int> const specialNumbers{
 		{"answer", 42},
@@ -131,7 +137,12 @@ TEST(ContainerTest, testMap) {
 
 	// map["answer"] -> geht nur bei non-const map
 
-	specialNumbers.at("answer");
+	try {
+		specialNumbers.at("answer");
+	}
+	catch (std::out_of_range const& ex) {
+
+	}
 
 	auto const it = specialNumbers.find("leet");
 	if (it == specialNumbers.end()) {

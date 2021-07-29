@@ -1,5 +1,6 @@
 add_executable(example_tests
 	container_test.cxx
+	lambda_test.cxx
 	smart_pointer_test.cxx
 	string_test.cxx
 )
