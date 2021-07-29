@@ -7,8 +7,13 @@ using workshop::List;
 TEST(ListTest, empty_list)
 {
 	List<int> const empty{};
-	EXPECT_TRUE(empty.empty());
-	EXPECT_EQ(0u, empty.size());
+	try {
+		EXPECT_TRUE(empty.empty());
+		EXPECT_EQ(0u, empty.size());
+	}
+	catch (std::runtime_error const& ex) {
+
+	}
 }
 
 TEST(ListTest, single_value_list)
@@ -41,6 +46,7 @@ TEST(ListTest, front)
 	EXPECT_EQ(letters.size(), 0u);
 
 	EXPECT_THROW(letters.pop_front(), std::out_of_range);
+	EXPECT_THROW(letters.front(), std::out_of_range);
 }
 
 class ListEmptySizeCorelationTestFixture : public ::testing::TestWithParam<std::size_t> {

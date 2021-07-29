@@ -12,12 +12,56 @@ namespace t = testing;
 #include <unordered_set>
 #include <vector>
 
+#include <stdexcept>
+
 int array_size(int arr[4]) {
 	return sizeof(arr) / sizeof(arr[0]);
 }
 
+#include <iterator>
+#include <numeric>
+
+// ADL - Argument Dependent Lookup
+namespace workshop {
+	template <typename T>
+	struct range {
+		T* begin;
+		T* end;
+	};
+
+	template <typename T>
+	T* begin(range<T> const& r) {
+		return r.begin;
+	}
+
+	template <typename T>
+	T* end(range<T> const& r) {
+		return r.end;
+	}
+}
+
+template <typename Container>
+auto sum(Container const& c) {
+	using std::begin;
+	using std::end;
+	using ResultType = std::remove_cv_t<std::decay_t<decltype(*begin(c))>>;
+	static_assert(std::is_same_v<int, ResultType>);
+	return std::accumulate(begin(c), end(c), ResultType{}, [](ResultType a, ResultType b) {
+		return a + b;
+	});
+}
+
+#include <iostream>
+
 TEST(ContainerTest, testArray) {
-	int arr[3];
+	int arr[3]{ 1, 2, 3 };
+	int const result = sum(arr);
+
+	workshop::range<int> r{ arr, arr + 3 };
+	int const result2 = sum(r);
+
+	EXPECT_EQ(result, result2);
+
 	EXPECT_EQ(2, array_size(arr));
 
 	int size = sizeof(arr) / (sizeof(arr[0]));
@@ -188,4 +232,10 @@ TEST(ContainerTest, testVector) {
 	v = shrinked;
 
 	// v.capacity() vs v.size()
+
+	// std::vector<int>(initializer_list<int> init)
+	std::vector<int> one_number_1{ 2 };
+
+	// std::vector<int>(size_t count, int value = 0)
+	std::vector<int> one_number_2(2);
 }
