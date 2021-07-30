@@ -26,7 +26,19 @@ struct AdderClass final {
 	int add(int a, int b) const {
 		return a + b;
 	}
+
+	auto adder() {
+		return [*this](int a, int b) { return add(a, b); };
+	}
 };
+
+auto add_curry(AdderClass* _this) {
+	return [_this](int a, int b) { return a + b; };
+}
+
+void test() {
+	add_curry(new AdderClass{})(23, 42);
+}
 
 template <typename Fn>
 auto reduce(int begin, int end, Fn&& reducer)
