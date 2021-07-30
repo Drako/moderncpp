@@ -3,6 +3,9 @@ add_executable(example_tests
 	lambda_test.cxx
 	smart_pointer_test.cxx
 	string_test.cxx
+
+	allocators.cxx
+	lambdas.cxx
 )
 target_link_libraries(example_tests PRIVATE
 	CONAN_PKG::gtest
