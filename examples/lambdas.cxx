@@ -200,7 +200,7 @@ TEST(LambdaTest, automaticCapture) {
 }
 
 struct opaque;
-int init(opaque** op);
+int init(opaque** op) { return 0; }
 
 void x() {
 	opaque* op = nullptr;

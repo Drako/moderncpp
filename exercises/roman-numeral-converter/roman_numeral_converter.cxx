@@ -8,6 +8,19 @@
 
 #include "../../examples/debugging_memory_resource.hxx"
 
+std::array<std::byte, 1000000000L> static_mem;
+std::pmr::monotonic_buffer_resource static_resource{
+	static_mem.data(),
+	static_mem.size(),
+	std::pmr::null_memory_resource()
+};
+
+/*
+int main() {
+	std::pmr::set_default_resource(&static_resource);
+}
+*/
+
 namespace {
 	using namespace std;
 
@@ -81,10 +94,11 @@ namespace {
 			= 3999
 			* sizeof(std::pmr::unordered_map<std::string, int>::node_type)
 			* 6;
+		static_assert(sizeof(std::pmr::unordered_map<std::string, int>::node_type) == 16);
 
 		static std::array<std::byte, BUFFER_SIZE> buffer;
 		// static debugging_memory_resource base_resource{};
-		static std::pmr::monotonic_buffer_resource resource{ buffer.data(), buffer.size() /*, &base_resource */ };
+		static std::pmr::monotonic_buffer_resource resource{ buffer.data(), buffer.size() , std::pmr::null_memory_resource() };
 
 		// IIFE - Immediatly Invoked Function Expression
 		static std::pmr::unordered_map<std::string, int> const reverse_mapping = [](std::pmr::memory_resource * resource) {
