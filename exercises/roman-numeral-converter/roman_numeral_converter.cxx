@@ -2,8 +2,11 @@
 
 #include <cassert>
 #include <array>
+#include <memory_resource>
 #include <tuple>
 #include <unordered_map>
+
+#include "../../examples/debugging_memory_resource.hxx"
 
 namespace {
 	using namespace std;
@@ -73,14 +76,24 @@ namespace {
 	}
 
 	int from_roman_with_reverse_mapping(std::string_view value) {
+		// this is only an estimate
+		constexpr std::size_t const BUFFER_SIZE
+			= 3999
+			* sizeof(std::pmr::unordered_map<std::string, int>::node_type)
+			* 6;
+
+		static std::array<std::byte, BUFFER_SIZE> buffer;
+		// static debugging_memory_resource base_resource{};
+		static std::pmr::monotonic_buffer_resource resource{ buffer.data(), buffer.size() /*, &base_resource */ };
+
 		// IIFE - Immediatly Invoked Function Expression
-		static std::unordered_map<std::string, int> const reverse_mapping = []() {
-			std::unordered_map<std::string, int> rmap;
+		static std::pmr::unordered_map<std::string, int> const reverse_mapping = [](std::pmr::memory_resource * resource) {
+			std::pmr::unordered_map<std::string, int> rmap{ resource };
 			for (int n = 1; n <= 3999; ++n) {
-				rmap[workshop::to_roman(n)] = n;
+				rmap.emplace(workshop::to_roman(n), n);
 			}
 			return rmap;
-		}();
+		}(&resource);
 
 		auto const it = reverse_mapping.find(std::string{ value });
 		if (it == reverse_mapping.end()) {
