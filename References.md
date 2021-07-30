@@ -5,6 +5,7 @@
 * [C++ Compiler Support](https://en.cppreference.com/w/cpp/compiler_support)
 * [Predefined Compiler Macros](https://sourceforge.net/p/predef/wiki/Home/)
 * [Compiler Explorer](https://godbo.lt/)
+* [Quick Benchmark](https://quick-bench.com)
 
 ## Testing with C++
 * [gtest/gmock - Complete testing & mocking framework](https://github.com/google/googletest)
